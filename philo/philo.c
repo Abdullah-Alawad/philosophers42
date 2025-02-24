@@ -1,5 +1,27 @@
 #include "philo.h"
 
+int	init_philos(t_table *table)
+{
+	int	i;
+
+	table->philos = (t_philo *)malloc(sizeof(t_philo) * table->philos_num);
+	if (!table->philos)
+		return (0);
+	i = 0;
+	while (i < table->philos_num)
+	{
+		table->philos[i].id = i + 1;
+		table->philos[i].last_eat = table->start_time;
+		table->philos[i].table = table;
+		table->philos[i].left_f = &table->forks[i];
+		table->philos[i].right_f = &table->forks[(i + 1) % table->philos_num];
+		if (pthread_create(&table->philos[i].thread, NULL, &philo_routine, &table->philos[i]) != 0)
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 int	init_forks(t_table *table)
 {
 	int	i;
@@ -14,7 +36,11 @@ int	init_forks(t_table *table)
 		if (pthread_mutex_init(&table->forks[i], NULL) != 0)
 			return (0);
 		i++;
-	}	
+	}
+	if (pthread_mutex_init(&table->print_lock, NULL) != 0
+		|| pthread_mutex_init(&table->sim_lock, NULL) != 0)
+        return (0);
+	return (1);
 }
 
 int	init_table(t_table *table, int ac, char **av)
@@ -41,9 +67,11 @@ int	init_table(t_table *table, int ac, char **av)
 	}
 	else
 		table->meals_num = 0;
+	//init mutex and philos
 	if (!init_forks(table))
 		return (0);
-	init_philos(table);
+	if (!init_philos(table))
+		return (0);
 	return (1);
 }
 
