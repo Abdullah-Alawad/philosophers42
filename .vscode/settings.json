@@ -5,6 +5,7 @@
         "*.dbclient-js": "javascript",
         "*.embeddedhtml": "html",
         "time.h": "c",
-        "stdlib.h": "c"
+        "stdlib.h": "c",
+        "unistd.h": "c"
     }
 }
