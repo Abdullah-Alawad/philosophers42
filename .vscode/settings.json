@@ -6,6 +6,7 @@
         "*.embeddedhtml": "html",
         "time.h": "c",
         "stdlib.h": "c",
-        "unistd.h": "c"
+        "unistd.h": "c",
+        "cstdlib": "c"
     }
 }
