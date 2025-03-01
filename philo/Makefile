@@ -6,7 +6,7 @@ CFLAGS = -Wall -Werror -Wextra -pthread
 
 RM = rm -f
 
-SRCS = utils.c init_table.c
+SRCS = utils.c init_table.c routine.c clean_n_errs.c
 
 MAIN_SRC = philo.c
 

@@ -25,3 +25,23 @@ int	ft_atoi(const char *nptr)
 	}
 	return (res * sign);
 }
+
+long long	get_t_in_ms(void)
+{
+	struct timeval	tv;
+
+	if (gettimeofday(&tv, NULL) == 0)
+		return (tv.tv_sec * 1000LL + tv.tv_usec / 1000);
+	return (0);
+}
+
+void	print_status(t_philo *philo, char *stat)
+{
+	long long	t_s;
+
+	pthread_mutex_lock(&philo->table->print_lock);
+	t_s = get_t_in_ms() - philo->table->start_time;
+	if (!sim_should_stop(philo->table))
+		printf("%lld %d %s\n", t_s, philo->id, stat);
+	pthread_mutex_unlock(&philo->table->print_lock);
+}
