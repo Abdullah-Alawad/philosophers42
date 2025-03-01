@@ -3,7 +3,7 @@
 int	main(int argc, char **argv)
 {
 	t_table		table;
-	p_theread_t	controller;
+	pthread_t	controller;
 	int			i;
 
 	if (argc < 5 || argc > 6)
@@ -19,5 +19,5 @@ int	main(int argc, char **argv)
 		pthread_join(table.philos[i].thread, NULL);
 		i++;
 	}
-	clean_table(&table);
+	//clean_table(&table);
 }

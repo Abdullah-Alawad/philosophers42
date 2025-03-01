@@ -1,6 +1,6 @@
 #include "philo.h"
 
-void	print_status(t_philo *philo, char *stat)
+void	clean_table(t_table *table)
 {
 	int	i;
 

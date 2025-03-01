@@ -13,13 +13,13 @@ void	philo_sleep(t_philo *philo)
 
 void	philo_eat(t_philo *philo)
 {
-	pthraed_mutex_lock(philo->left_f);
+	pthread_mutex_lock(philo->left_f);
 	print_status(philo, "has taken a fork");
-	pthraed_mutex_lock(philo->right_f);
+	pthread_mutex_lock(philo->right_f);
 	print_status(philo, "has taken a fork");
 	pthread_mutex_lock(&philo->table->sim_lock);
-	philo->lest_eat = get_t_in_ms();
-	philo->meals_num++;
+	philo->last_eat = get_t_in_ms();
+	philo->table->meals_num++;
 	pthread_mutex_unlock(&philo->table->sim_lock);
 	print_status(philo, "is eating");
 	usleep(philo->table->time_to_eat * 1000);

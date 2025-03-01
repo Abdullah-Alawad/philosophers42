@@ -39,7 +39,7 @@ int			init_table(t_table *table, int ac, char **av);
 long long	get_t_in_ms(void);
 void		*philo_routine(void	*arg);
 void		print_status(t_philo *philo, char *stat);
-void		print_status(t_philo *philo, char *stat);
+//void		clean_table(t_table *table)
 int			sim_should_stop(t_table *table);
 void		*control_death(void *arg);
 

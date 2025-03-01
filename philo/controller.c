@@ -5,6 +5,7 @@ void	*control_death(void *arg)
 	t_table	*table;
 	int		i;
 
+	table = (t_table *)arg;
 	while (!sim_should_stop(table))
 	{
 		i = 0;
