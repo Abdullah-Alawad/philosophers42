@@ -34,5 +34,8 @@ typedef struct s_philo
 	struct s_table	*table;
 }	t_philo;
 
+int	ft_atoi(const char *nptr);
+int	init_table(t_table *table, int ac, char **av);
+
 
 #endif
