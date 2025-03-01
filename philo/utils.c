@@ -45,3 +45,15 @@ void	print_status(t_philo *philo, char *stat)
 		printf("%lld %d %s\n", t_s, philo->id, stat);
 	pthread_mutex_unlock(&philo->table->print_lock);
 }
+
+int	sim_should_stop(t_table *table)
+{
+	pthread_mutex_lock(&table->sim_lock);
+	if (table->stop_simulation)
+	{
+		pthread_mutex_unlock(&table->sim_lock);
+		return (1);
+	}
+	pthread_mutex_unlock(&table->sim_lock);
+	return (0);
+}
