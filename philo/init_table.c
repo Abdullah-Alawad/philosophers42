@@ -15,6 +15,7 @@ int	init_philos(t_table *table)
 		table->philos[i].table = table;
 		table->philos[i].left_f = &table->forks[i];
 		table->philos[i].right_f = &table->forks[(i + 1) % table->philos_num];
+		table->philos[i].meals_eaten = 0;
 		if (pthread_create(&table->philos[i].thread, NULL, &philo_routine, &table->philos[i]) != 0)
 			return (0);
 		i++;
@@ -63,11 +64,13 @@ int	init_table(t_table *table, int ac, char **av)
 	{
 		if (ft_atoi(av[5]) < 0)
 			return (0);
-		table->meals_num = ft_atoi(av[5]);
+		table->meals_required = ft_atoi(av[5]);
 	}
 	else
-		table->meals_num = 0;
-	if (!init_forks(table) || !init_philos(table))
+		table->meals_required = -1;
+	if (!init_forks(table))
+		return (0);
+	if (!init_philos(table))
 		return (0);
 	return (1);
 }

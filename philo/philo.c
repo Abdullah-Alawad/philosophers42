@@ -19,5 +19,5 @@ int	main(int argc, char **argv)
 		pthread_join(table.philos[i].thread, NULL);
 		i++;
 	}
-	//clean_table(&table);
+	clean_table(&table);
 }

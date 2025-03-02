@@ -15,7 +15,7 @@ typedef struct s_table
 	int				time_to_die;
 	int				time_to_eat;
 	int				time_to_sleep;
-	int				meals_num;
+	int				meals_required;
 	int				stop_simulation;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	print_lock;
@@ -29,6 +29,7 @@ typedef struct s_philo
     pthread_t		thread;
     int				id;
     long long		last_eat;
+	int				meals_eaten;
     pthread_mutex_t *left_f;
     pthread_mutex_t *right_f;
 	struct s_table	*table;
@@ -39,9 +40,11 @@ int			init_table(t_table *table, int ac, char **av);
 long long	get_t_in_ms(void);
 void		*philo_routine(void	*arg);
 void		print_status(t_philo *philo, char *stat);
-//void		clean_table(t_table *table)
+void		clean_table(t_table *table);
 int			sim_should_stop(t_table *table);
 void		*control_death(void *arg);
+void		ft_usleep(long long time);
+
 
 
 #endif

@@ -13,13 +13,23 @@ void	philo_sleep(t_philo *philo)
 
 void	philo_eat(t_philo *philo)
 {
-	pthread_mutex_lock(philo->left_f);
-	print_status(philo, "has taken a fork");
-	pthread_mutex_lock(philo->right_f);
-	print_status(philo, "has taken a fork");
+	if (philo->id % 2 == 0)
+	{
+		pthread_mutex_lock(philo->left_f);
+		print_status(philo, "has taken a left fork");
+		pthread_mutex_lock(philo->right_f);
+		print_status(philo, "has taken a right fork");
+	}
+	else
+	{
+		pthread_mutex_lock(philo->right_f);
+		print_status(philo, "has taken a right fork");
+		pthread_mutex_lock(philo->left_f);
+		print_status(philo, "has taken a left fork");
+	}
 	pthread_mutex_lock(&philo->table->sim_lock);
 	philo->last_eat = get_t_in_ms();
-	philo->table->meals_num++;
+	philo->meals_eaten++;
 	pthread_mutex_unlock(&philo->table->sim_lock);
 	print_status(philo, "is eating");
 	usleep(philo->table->time_to_eat * 1000);
