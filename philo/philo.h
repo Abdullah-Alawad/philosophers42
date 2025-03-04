@@ -8,6 +8,12 @@
 # include <sys/time.h>
 # include <pthread.h>
 
+# define GREEN "\033[0;32m"
+# define RED "\033[0;31m"
+# define YELLOW "\033[0;33m"
+# define BLUE "\033[0;34m"
+# define RESET "\033[0m"
+
 typedef struct s_table
 {
 	struct s_philo	*philos;
@@ -39,11 +45,13 @@ int			ft_atoi(const char *nptr);
 int			init_table(t_table *table, int ac, char **av);
 long long	get_t_in_ms(void);
 void		*philo_routine(void	*arg);
-void		print_status(t_philo *philo, char *stat);
+void		print_status(t_philo *philo, char *stat, char *color);
 void		clean_table(t_table *table);
 int			sim_should_stop(t_table *table);
 void		*control_death(void *arg);
 void		ft_usleep(long long time);
+void		custom_sleep(t_philo *philo, int sleep_time_ms);
+
 
 
 

@@ -16,8 +16,10 @@ void	*control_death(void *arg)
             pthread_mutex_lock(&table->sim_lock);
             if (get_t_in_ms() - table->philos[i].last_eat >= table->time_to_die)
             {
-                print_status(&table->philos[i], "died");
+                pthread_mutex_lock(&table->print_lock);
+                print_status(&table->philos[i], "died", RED);
                 table->stop_simulation = 1;
+                pthread_mutex_unlock(&table->print_lock);
                 pthread_mutex_unlock(&table->sim_lock);
                 return (NULL);
             }
@@ -33,7 +35,7 @@ void	*control_death(void *arg)
             pthread_mutex_unlock(&table->sim_lock);
             return (NULL);
         }
-        usleep(1000);
+        usleep(200);
     }
     return (NULL);
 }
