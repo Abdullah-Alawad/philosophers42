@@ -19,41 +19,13 @@ void	philo_sleep(t_philo *philo)
 void	philo_eat(t_philo *philo)
 {
 	if (sim_should_stop(philo->table))
-		return;
-	if (sim_should_stop(philo->table))
-		return;
-	if (philo->id % 2 == 0)
-	{
-		pthread_mutex_lock(philo->left_f);
-		if (sim_should_stop(philo->table))
-		{
-			pthread_mutex_unlock(philo->left_f);
-			return;
-		}
-		pthread_mutex_lock(philo->right_f);
-		if (sim_should_stop(philo->table))
-		{
-			pthread_mutex_unlock(philo->left_f);
-			pthread_mutex_unlock(philo->right_f);
-			return;
-		}
-	}
+		return ;
+	//if (sim_should_stop(philo->table))
+	//	return ;
+	if (philo->id  % 2 == 0)
+		lock_philo_1(philo);
 	else
-	{
-		pthread_mutex_lock(philo->right_f);
-		if (sim_should_stop(philo->table))
-		{
-			pthread_mutex_unlock(philo->right_f);
-			return;
-		}
-		pthread_mutex_lock(philo->left_f);
-		if (sim_should_stop(philo->table))
-		{
-			pthread_mutex_unlock(philo->right_f);
-			pthread_mutex_unlock(philo->left_f);
-			return;
-		}
-	}
+		lock_philo_2(philo);
 	pthread_mutex_lock(&philo->table->print_lock);
 	print_status(philo, "has taken a right fork", RESET);
 	print_status(philo, "has taken a left fork", RESET);
@@ -64,16 +36,7 @@ void	philo_eat(t_philo *philo)
 	philo->meals_eaten++;
 	pthread_mutex_unlock(&philo->table->sim_lock);
 	custom_sleep(philo, philo->table->time_to_eat);
-	if (philo->id % 2 == 0)
-	{
-		pthread_mutex_unlock(philo->right_f);
-		pthread_mutex_unlock(philo->left_f);
-	}
-	else
-	{
-		pthread_mutex_unlock(philo->left_f);
-		pthread_mutex_unlock(philo->right_f);
-	}
+	unlock_philo(philo);
 }
 
 void	*philo_routine(void	*arg)
