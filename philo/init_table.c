@@ -16,7 +16,8 @@ int	init_philos(t_table *table)
 		table->philos[i].left_f = &table->forks[i];
 		table->philos[i].right_f = &table->forks[(i + 1) % table->philos_num];
 		table->philos[i].meals_eaten = 0;
-		if (pthread_create(&table->philos[i].thread, NULL, &philo_routine, &table->philos[i]) != 0)
+		if (pthread_create(&table->philos[i].thread, NULL,
+				&philo_routine, &table->philos[i]) != 0)
 			return (0);
 		i++;
 	}
@@ -28,7 +29,7 @@ int	init_forks(t_table *table)
 	int	i;
 
 	table->forks = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t)
-		* table->philos_num);
+			* table->philos_num);
 	if (!table->forks)
 		return (0);
 	i = 0;
@@ -40,7 +41,7 @@ int	init_forks(t_table *table)
 	}
 	if (pthread_mutex_init(&table->print_lock, NULL) != 0
 		|| pthread_mutex_init(&table->sim_lock, NULL) != 0)
-        return (0);
+		return (0);
 	return (1);
 }
 
@@ -68,9 +69,7 @@ int	init_table(t_table *table, int ac, char **av)
 	}
 	else
 		table->meals_required = -1;
-	if (!init_forks(table))
-		return (0);
-	if (!init_philos(table))
+	if (!init_forks(table) || !init_philos(table))
 		return (0);
 	return (1);
 }
