@@ -14,10 +14,18 @@
 
 void	philo_think(t_philo *philo)
 {
+	long	t_left;
+
+	pthread_mutex_lock(&philo->table->sim_lock);
+	t_left = get_t_in_ms() - philo->last_eat;	
+	pthread_mutex_unlock(&philo->table->sim_lock);	
 	pthread_mutex_lock(&philo->table->print_lock);
 	print_status(philo, "is thinking", YELLOW);
 	pthread_mutex_unlock(&philo->table->print_lock);
-	usleep(500);
+	if (t_left > philo->table->time_to_die * 0.75)
+		usleep(250);
+	else
+		usleep(750);
 }
 
 void	philo_sleep(t_philo *philo)
@@ -30,8 +38,15 @@ void	philo_sleep(t_philo *philo)
 
 void	philo_eat(t_philo *philo)
 {
+	long	t_left;
+
 	if (sim_should_stop(philo->table))
 		return ;
+	pthread_mutex_lock(&philo->table->sim_lock);
+	t_left = (get_t_in_ms() - philo->last_eat);
+	pthread_mutex_unlock(&philo->table->sim_lock);
+	if (t_left > philo->table->time_to_die * 0.75)
+		usleep(250);
 	if (philo->id % 2 == 0)
 	{
 		if (!lock_philo_1(philo))
@@ -61,7 +76,7 @@ void	*philo_routine(void	*arg)
 
 	philo = (t_philo *)arg;
 	if (philo->id % 2 == 1)
-		usleep(1000);
+		usleep(500);
 	while (!sim_should_stop(philo->table))
 	{
 		if (sim_should_stop(philo->table))
