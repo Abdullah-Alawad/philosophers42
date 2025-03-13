@@ -32,12 +32,16 @@ void	philo_eat(t_philo *philo)
 {
 	if (sim_should_stop(philo->table))
 		return ;
-	//if (sim_should_stop(philo->table))
-	//	return ;
-	if (philo->id  % 2 == 0)
-		lock_philo_1(philo);
+	if (philo->id % 2 == 0)
+	{
+		if (!lock_philo_1(philo))
+			return ;
+	}
 	else
-		lock_philo_2(philo);
+	{
+		if (!lock_philo_2(philo))
+			return ;
+	}
 	pthread_mutex_lock(&philo->table->print_lock);
 	print_status(philo, "has taken a right fork", RESET);
 	print_status(philo, "has taken a left fork", RESET);
@@ -61,16 +65,16 @@ void	*philo_routine(void	*arg)
 	while (!sim_should_stop(philo->table))
 	{
 		if (sim_should_stop(philo->table))
-			break;
+			break ;
 		philo_eat(philo);
 		if (sim_should_stop(philo->table))
-			break;
+			break ;
 		philo_sleep(philo);
 		if (sim_should_stop(philo->table))
-			break;
+			break ;
 		philo_think(philo);
 		if (sim_should_stop(philo->table))
-			break;
+			break ;
 	}
 	return (NULL);
 }

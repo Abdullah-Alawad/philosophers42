@@ -12,38 +12,40 @@
 
 #include "philo.h"
 
-void	lock_philo_1(t_philo *philo)
+int	lock_philo_1(t_philo *philo)
 {
 	pthread_mutex_lock(philo->left_f);
 	if (sim_should_stop(philo->table))
 	{
 		pthread_mutex_unlock(philo->left_f);
-		return ;
+		return (0);
 	}
 	pthread_mutex_lock(philo->right_f);
 	if (sim_should_stop(philo->table))
 	{
 		pthread_mutex_unlock(philo->left_f);
 		pthread_mutex_unlock(philo->right_f);
-		return ;
+		return (0);
 	}
+	return (1);
 }
 
-void	lock_philo_2(t_philo *philo)
+int	lock_philo_2(t_philo *philo)
 {
 	pthread_mutex_lock(philo->right_f);
 	if (sim_should_stop(philo->table))
 	{
 		pthread_mutex_unlock(philo->right_f);
-		return;
+		return (0);
 	}
 	pthread_mutex_lock(philo->left_f);
 	if (sim_should_stop(philo->table))
 	{
 		pthread_mutex_unlock(philo->right_f);
 		pthread_mutex_unlock(philo->left_f);
-		return;
+		return (0);
 	}
+	return (1);
 }
 
 void	unlock_philo(t_philo *philo)
@@ -71,8 +73,8 @@ void	ft_usleep(long long time)
 
 void	custom_sleep(t_philo *philo, int sleep_time_ms)
 {
-    long long start_time;
-    long long elapsed_time;
+	long long	start_time;
+	long long	elapsed_time;
 
 	start_time = get_t_in_ms();
 	elapsed_time = 0;

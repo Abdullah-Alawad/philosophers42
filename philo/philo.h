@@ -61,8 +61,8 @@ int			sim_should_stop(t_table *table);
 void		*control_death(void *arg);
 void		ft_usleep(long long time);
 void		custom_sleep(t_philo *philo, int sleep_time_ms);
-void		lock_philo_1(t_philo *philo);
-void		lock_philo_2(t_philo *philo);
+int			lock_philo_1(t_philo *philo);
+int			lock_philo_2(t_philo *philo);
 void		unlock_philo(t_philo *philo);
 
 #endif
