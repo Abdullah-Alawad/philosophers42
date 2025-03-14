@@ -66,7 +66,7 @@ int	init_table(t_table *table, int ac, char **av)
 	table->time_to_eat = ft_atoi(av[3]);
 	table->time_to_sleep = ft_atoi(av[4]);
 	table->stop_simulation = 0;
-	if (table->philos_num < 2 || table->time_to_die < 0
+	if (table->philos_num < 1 || table->time_to_die < 0
 		|| table->time_to_eat < 0 || table->time_to_sleep < 0)
 		return (0);
 	if (gettimeofday(&tv, NULL) == 0)

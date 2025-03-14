@@ -62,3 +62,19 @@ int	sim_should_stop(t_table *table)
 	pthread_mutex_unlock(&table->sim_lock);
 	return (stop);
 }
+
+void	custom_sleep(t_philo *philo, int sleep_time_ms)
+{
+	long long	start_time;
+	long long	elapsed_time;
+
+	start_time = get_t_in_ms();
+	elapsed_time = 0;
+	while (elapsed_time < sleep_time_ms)
+	{
+		if (sim_should_stop(philo->table))
+			return ;
+		usleep(1000);
+		elapsed_time = get_t_in_ms() - start_time;
+	}
+}

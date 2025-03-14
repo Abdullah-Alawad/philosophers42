@@ -59,10 +59,12 @@ void		print_status(t_philo *philo, char *stat, char *color);
 void		clean_table(t_table *table);
 int			sim_should_stop(t_table *table);
 void		*control_death(void *arg);
-void		ft_usleep(long long time);
 void		custom_sleep(t_philo *philo, int sleep_time_ms);
 int			lock_philo_1(t_philo *philo);
 int			lock_philo_2(t_philo *philo);
 void		unlock_philo(t_philo *philo);
+int			lock_forks(t_philo *philo);
+void		print_eat(t_philo *philo);
+
 
 #endif

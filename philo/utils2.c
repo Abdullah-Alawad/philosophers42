@@ -62,27 +62,26 @@ void	unlock_philo(t_philo *philo)
 	}
 }
 
-void	ft_usleep(long long time)
+int	lock_forks(t_philo *philo)
 {
-	long long	start;
-
-	start = get_t_in_ms();
-	while (get_t_in_ms() - start < time)
-		usleep(100);
+	if (philo->id % 2 == 0)
+	{
+		if (!lock_philo_1(philo))
+			return (0);
+	}
+	else
+	{
+		if (!lock_philo_2(philo))
+			return (0);
+	}
+	return (1);
 }
 
-void	custom_sleep(t_philo *philo, int sleep_time_ms)
+void	print_eat(t_philo *philo)
 {
-	long long	start_time;
-	long long	elapsed_time;
-
-	start_time = get_t_in_ms();
-	elapsed_time = 0;
-	while (elapsed_time < sleep_time_ms)
-	{
-		if (sim_should_stop(philo->table))
-			return ;
-		usleep(1000);
-		elapsed_time = get_t_in_ms() - start_time;
-	}
+	pthread_mutex_lock(&philo->table->print_lock);
+	print_status(philo, "has taken a right fork", RESET);
+	print_status(philo, "has taken a left fork", RESET);
+	print_status(philo, "is eating", GREEN);
+	pthread_mutex_unlock(&philo->table->print_lock);
 }
