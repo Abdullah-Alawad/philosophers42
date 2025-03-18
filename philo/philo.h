@@ -65,6 +65,8 @@ int			lock_philo_2(t_philo *philo);
 void		unlock_philo(t_philo *philo);
 int			lock_forks(t_philo *philo);
 void		print_eat(t_philo *philo);
+void 		ft_usleep(long long duration_ms);
+
 
 
 #endif

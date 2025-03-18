@@ -43,9 +43,46 @@ long long	get_t_in_ms(void)
 	struct timeval	tv;
 
 	if (gettimeofday(&tv, NULL) == 0)
-		return ((tv.tv_sec * 1000LL) + (tv.tv_usec / 1000));
+		return (tv.tv_sec * 1000LL + tv.tv_usec / 1000);
 	return (0);
 }
+
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
+{
+	size_t	i;
+
+	i = 0;
+	if (n == 0)
+		return (0);
+	while (i < n && s1[i] != '\0' && s2[i] != '\0' && s1[i] == s2[i])
+		i++;
+	if (i == n)
+		return (0);
+	else
+		return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+}
+/*
+void print_status(t_philo *philo, char *stat, char *color)
+{
+    long long elapsed;
+    long long time_interval;
+
+
+	if (!ft_strncmp(stat, "eating", 100))
+		time_interval = philo->table->time_to_eat;
+	else if (!ft_strncmp(stat, "sleeping", 100))
+		time_interval = philo->table->time_to_sleep;
+	else if (!ft_strncmp(stat, "died", 100))
+		time_interval = philo->table->time_to_die;
+	else
+		time_interval = philo->table->time_to_eat;
+	elapsed = get_t_in_ms() - philo->table->start_time;
+	if (time_interval > 0)
+		elapsed = ((elapsed + (time_interval / 2)) / time_interval) * time_interval;
+
+    printf("%s%lld %d %s\n"RESET, color, elapsed, philo->id, stat);
+}
+	*/
 
 void	print_status(t_philo *philo, char *stat, char *color)
 {
@@ -74,7 +111,14 @@ void	custom_sleep(t_philo *philo, int sleep_time_ms)
 	{
 		if (sim_should_stop(philo->table))
 			return ;
-		usleep(1000);
+		usleep(500);
 		elapsed_time = get_t_in_ms() - start_time;
 	}
+}
+
+void ft_usleep(long long duration_ms)
+{
+    long long start_time = get_t_in_ms();
+    while ((get_t_in_ms() - start_time) < duration_ms)
+        usleep(400); // Small sleeps to reduce CPU usage
 }

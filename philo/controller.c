@@ -62,7 +62,7 @@ void	*control_death(void *arg)
 		}
 		if (check_num_of_meals(table, all_philos))
 			return (NULL);
-		usleep(200);
+		usleep(400);
 	}
 	return (NULL);
 }

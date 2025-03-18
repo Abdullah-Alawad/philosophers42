@@ -23,9 +23,9 @@ void	philo_think(t_philo *philo)
 	print_status(philo, "is thinking", YELLOW);
 	pthread_mutex_unlock(&philo->table->print_lock);
 	if (t_left > philo->table->time_to_die * 0.75)
-		usleep(250);
+		usleep(500);
 	else
-		usleep(750);
+		usleep(1500);
 }
 
 void	philo_sleep(t_philo *philo)
@@ -47,7 +47,7 @@ void	philo_eat(t_philo *philo)
 	t_left = (get_t_in_ms() - philo->last_eat);
 	pthread_mutex_unlock(&philo->table->sim_lock);
 	if (t_left > philo->table->time_to_die * 0.75)
-		usleep(250);
+		usleep(500);
 	if (!lock_forks(philo))
 		return ;
 	print_eat(philo);
