@@ -111,7 +111,7 @@ void	custom_sleep(t_philo *philo, int sleep_time_ms)
 	{
 		if (sim_should_stop(philo->table))
 			return ;
-		usleep(500);
+		usleep(200);
 		elapsed_time = get_t_in_ms() - start_time;
 	}
 }
