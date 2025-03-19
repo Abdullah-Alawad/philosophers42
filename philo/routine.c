@@ -33,7 +33,6 @@ void	philo_sleep(t_philo *philo)
 	pthread_mutex_lock(&philo->table->print_lock);
 	print_status(philo, "is sleeping", BLUE);
 	pthread_mutex_unlock(&philo->table->print_lock);
-	//usleep(philo->table->time_to_sleep * 1000);
 	custom_sleep(philo, philo->table->time_to_sleep);
 }
 
@@ -67,7 +66,6 @@ void	*philo_routine(void	*arg)
 	philo = (t_philo *)arg;
 	if (philo->id % 2 == 1)
 		usleep(200);
-	//philo->table->start_time = get_t_in_ms();
 	while (!sim_should_stop(philo->table))
 	{
 		if (philo->table->philos_num == 1)

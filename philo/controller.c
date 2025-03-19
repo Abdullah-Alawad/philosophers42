@@ -45,7 +45,7 @@ void	*control_death(void *arg)
 	int		all_philos;
 
 	table = (t_table *)arg;
-	while (1)
+	while (FOREVER)
 	{
 		i = 0;
 		all_philos = 0;

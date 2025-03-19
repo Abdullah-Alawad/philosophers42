@@ -19,11 +19,12 @@
 # include <sys/time.h>
 # include <pthread.h>
 
-# define GREEN "\033[0;32m"
-# define RED "\033[0;31m"
-# define YELLOW "\033[0;33m"
-# define BLUE "\033[0;34m"
-# define RESET "\033[0m"
+# define GREEN		"\033[0;32m"
+# define RED		"\033[0;31m"
+# define YELLOW		"\033[0;33m"
+# define BLUE		"\033[0;34m"
+# define RESET		"\033[0m"
+# define FOREVER	1
 
 typedef struct s_table
 {
@@ -65,8 +66,5 @@ int			lock_philo_2(t_philo *philo);
 void		unlock_philo(t_philo *philo);
 int			lock_forks(t_philo *philo);
 void		print_eat(t_philo *philo);
-void 		ft_usleep(long long duration_ms);
-
-
 
 #endif
