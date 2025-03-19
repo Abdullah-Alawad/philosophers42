@@ -1,13 +1,25 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: aalawad <marvin@42.fr>                     +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2025/03/13 14:14:56 by aalawad           #+#    #+#              #
+#    Updated: 2025/03/13 14:14:58 by aalawad          ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 NAME = philo
 
 CC = cc
 
-CFLAGS = -Wall -Werror -Wextra -pthread -g
+CFLAGS = -Wall -Werror -Wextra -pthread
 
 RM = rm -f
 
 SRCS = utils.c init_table.c routine.c clean_n_errs.c \
-		controller.c
+		controller.c utils2.c
 
 MAIN_SRC = philo.c
 

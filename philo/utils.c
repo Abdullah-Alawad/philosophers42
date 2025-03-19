@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aalawad <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/13 14:14:26 by aalawad           #+#    #+#             */
+/*   Updated: 2025/03/13 14:14:27 by aalawad          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
 int	ft_atoi(const char *nptr)
@@ -23,7 +35,10 @@ int	ft_atoi(const char *nptr)
 		res += nptr[i] - '0';
 		i++;
 	}
-	return (res * sign);
+	if (nptr[i] == '\0')
+		return (res * sign);
+	else
+		return (-1);
 }
 
 long long	get_t_in_ms(void)
@@ -31,16 +46,14 @@ long long	get_t_in_ms(void)
 	struct timeval	tv;
 
 	if (gettimeofday(&tv, NULL) == 0)
-		return ((tv.tv_sec * 1000LL) + (tv.tv_usec / 1000));
+		return (tv.tv_sec * 1000LL + tv.tv_usec / 1000);
 	return (0);
 }
 
 void	print_status(t_philo *philo, char *stat, char *color)
 {
-	//pthread_mutex_lock(&philo->table->print_lock);
-	//if (!sim_should_stop(philo->table))
-	printf("%s%lld %d %s\n"RESET, color, get_t_in_ms() - philo->table->start_time, philo->id, stat);
-	//pthread_mutex_unlock(&philo->table->print_lock);
+	printf("%s%lld %d %s\n"RESET, color,
+		get_t_in_ms() - philo->table->start_time, philo->id, stat);
 }
 
 int	sim_should_stop(t_table *table)
@@ -53,26 +66,18 @@ int	sim_should_stop(t_table *table)
 	return (stop);
 }
 
-void	ft_usleep(long long time)
+void	custom_sleep(t_philo *philo, int sleep_time_ms)
 {
-	long long	start;
+	long long	start_time;
+	long long	elapsed_time;
 
-	start = get_t_in_ms();
-	while (get_t_in_ms() - start < time)
-		usleep(100);
-}
-
-void custom_sleep(t_philo *philo, int sleep_time_ms)
-{
-    long long start_time = get_t_in_ms();
-    long long elapsed_time = 0;
-
-    while (elapsed_time < sleep_time_ms)
-    {
-        if (sim_should_stop(philo->table))
-            return;  // Exit early if the simulation should stop
-
-        usleep(1000);  // Sleep for 1 ms to periodically check
-        elapsed_time = get_t_in_ms() - start_time;  // Update elapsed time
-    }
+	start_time = get_t_in_ms();
+	elapsed_time = 0;
+	while (elapsed_time < sleep_time_ms)
+	{
+		if (sim_should_stop(philo->table))
+			return ;
+		usleep(200);
+		elapsed_time = get_t_in_ms() - start_time;
+	}
 }

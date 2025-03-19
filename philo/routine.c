@@ -1,11 +1,31 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   routine.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aalawad <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/13 14:14:18 by aalawad           #+#    #+#             */
+/*   Updated: 2025/03/13 14:14:20 by aalawad          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
 void	philo_think(t_philo *philo)
 {
+	long	t_left;
+
+	pthread_mutex_lock(&philo->table->sim_lock);
+	t_left = get_t_in_ms() - philo->last_eat;
 	pthread_mutex_lock(&philo->table->print_lock);
 	print_status(philo, "is thinking", YELLOW);
 	pthread_mutex_unlock(&philo->table->print_lock);
-	usleep(500);
+	pthread_mutex_unlock(&philo->table->sim_lock);
+	if (t_left > philo->table->time_to_die * 0.75)
+		usleep(100);
+	else
+		usleep(300);
 }
 
 void	philo_sleep(t_philo *philo)
@@ -13,67 +33,30 @@ void	philo_sleep(t_philo *philo)
 	pthread_mutex_lock(&philo->table->print_lock);
 	print_status(philo, "is sleeping", BLUE);
 	pthread_mutex_unlock(&philo->table->print_lock);
-	usleep(philo->table->time_to_sleep * 1000);
+	custom_sleep(philo, philo->table->time_to_sleep);
 }
+
 
 void	philo_eat(t_philo *philo)
 {
+	long	t_left;
+
 	if (sim_should_stop(philo->table))
-		return;
-	if (sim_should_stop(philo->table))
-		return;
-	if (philo->id % 2 == 0)
-	{
-		pthread_mutex_lock(philo->left_f);
-		if (sim_should_stop(philo->table))
-		{
-			pthread_mutex_unlock(philo->left_f);
-			return;
-		}
-		pthread_mutex_lock(philo->right_f);
-		if (sim_should_stop(philo->table))
-		{
-			pthread_mutex_unlock(philo->left_f);
-			pthread_mutex_unlock(philo->right_f);
-			return;
-		}
-	}
-	else
-	{
-		pthread_mutex_lock(philo->right_f);
-		if (sim_should_stop(philo->table))
-		{
-			pthread_mutex_unlock(philo->right_f);
-			return;
-		}
-		pthread_mutex_lock(philo->left_f);
-		if (sim_should_stop(philo->table))
-		{
-			pthread_mutex_unlock(philo->right_f);
-			pthread_mutex_unlock(philo->left_f);
-			return;
-		}
-	}
-	pthread_mutex_lock(&philo->table->print_lock);
-	print_status(philo, "has taken a right fork", RESET);
-	print_status(philo, "has taken a left fork", RESET);
-	print_status(philo, "is eating", GREEN);
-	pthread_mutex_unlock(&philo->table->print_lock);
+		return ;
+	pthread_mutex_lock(&philo->table->sim_lock);
+	t_left = (get_t_in_ms() - philo->last_eat);
+	pthread_mutex_unlock(&philo->table->sim_lock);
+	if (t_left > philo->table->time_to_die * 0.75)
+		usleep(300);
+	if (!lock_forks(philo))
+		return ;
+	print_eat(philo);
 	pthread_mutex_lock(&philo->table->sim_lock);
 	philo->last_eat = get_t_in_ms();
 	philo->meals_eaten++;
 	pthread_mutex_unlock(&philo->table->sim_lock);
 	custom_sleep(philo, philo->table->time_to_eat);
-	if (philo->id % 2 == 0)
-	{
-		pthread_mutex_unlock(philo->right_f);
-		pthread_mutex_unlock(philo->left_f);
-	}
-	else
-	{
-		pthread_mutex_unlock(philo->left_f);
-		pthread_mutex_unlock(philo->right_f);
-	}
+	unlock_philo(philo);
 }
 
 void	*philo_routine(void	*arg)
@@ -82,20 +65,22 @@ void	*philo_routine(void	*arg)
 
 	philo = (t_philo *)arg;
 	if (philo->id % 2 == 1)
-		usleep(1000);
+		usleep(200);
 	while (!sim_should_stop(philo->table))
 	{
+		if (philo->table->philos_num == 1)
+			break ;
 		if (sim_should_stop(philo->table))
-			break;
+			break ;
 		philo_eat(philo);
 		if (sim_should_stop(philo->table))
-			break;
+			break ;
 		philo_sleep(philo);
 		if (sim_should_stop(philo->table))
-			break;
+			break ;
 		philo_think(philo);
 		if (sim_should_stop(philo->table))
-			break;
+			break ;
 	}
 	return (NULL);
 }
