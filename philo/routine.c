@@ -23,9 +23,9 @@ void	philo_think(t_philo *philo)
 	pthread_mutex_unlock(&philo->table->print_lock);
 	pthread_mutex_unlock(&philo->table->sim_lock);
 	if (t_left > philo->table->time_to_die * 0.75)
-		usleep(100);
-	else
 		usleep(300);
+	else
+		usleep(100);
 }
 
 void	philo_sleep(t_philo *philo)
