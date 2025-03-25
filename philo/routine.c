@@ -14,7 +14,7 @@
 
 void	philo_think(t_philo *philo)
 {
-	long	t_left;
+	long long	t_left;
 
 	pthread_mutex_lock(&philo->table->sim_lock);
 	t_left = get_t_in_ms() - philo->last_eat;
@@ -39,7 +39,7 @@ void	philo_sleep(t_philo *philo)
 
 void	philo_eat(t_philo *philo)
 {
-	long	t_left;
+	long long	t_left;
 
 	if (sim_should_stop(philo->table))
 		return ;
