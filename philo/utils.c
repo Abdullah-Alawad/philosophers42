@@ -52,8 +52,9 @@ long long	get_t_in_ms(void)
 
 void	print_status(t_philo *philo, char *stat, char *color)
 {
-	printf("%s%lld %d %s\n"RESET, color,
-		get_t_in_ms() - philo->table->start_time, philo->id, stat);
+	if (philo->table->stop_simulation == 0)
+		printf("%s%lld %d %s\n"RESET, color,
+			get_t_in_ms() - philo->table->start_time, philo->id, stat);
 }
 
 int	sim_should_stop(t_table *table)
@@ -77,7 +78,7 @@ void	custom_sleep(t_philo *philo, int sleep_time_ms)
 	{
 		if (sim_should_stop(philo->table))
 			return ;
-		usleep(200);
+		usleep(50);
 		elapsed_time = get_t_in_ms() - start_time;
 	}
 }

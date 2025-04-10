@@ -35,7 +35,7 @@ all: ${NAME}
 ${NAME}: ${MAIN_OBJ} ${OBJS}
 		${CC} ${CFLAGS} ${OBJS} ${MAIN_SRC} -o ${NAME}
 
-clean: ${MAIN_OBJ} ${OBJS}
+clean:
 		rm -f ${MAIN_OBJ} ${OBJS}
 
 fclean: clean
