@@ -1,12 +1,13 @@
 <h1 align="center"> Philosophers | <picture> <source media="(prefers-color-scheme: dark)" srcset="https://cdn.simpleicons.org/42/white"> <img alt="42" width=40 align="center" src="https://cdn.simpleicons.org/42/Black"> </picture> Cursus </h1>
-A project to simulate the classic Dining Philosophers problem using C threads and mutexes.
+
+> A project to simulate the classic Dining Philosophers problem using C threads and mutexes.
 
 <br>
-<br>
-
 
 <img align="right" width="150" src="https://github.com/Abdullah-Alawad/imgs/blob/main/100_Success.png">
-About the Project
+
+### About the Project
+
 This project is a multithreaded simulation of philosophers sitting around a table, where each philosopher eats, sleeps, and thinks while competing for shared resources — the forks. The goal is to avoid deadlocks, data races, and ensure no philosopher dies due to starvation.
 
 <h3>🛠️ Instructions</h3>
