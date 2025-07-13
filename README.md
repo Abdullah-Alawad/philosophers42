@@ -12,6 +12,7 @@ This project is a multithreaded simulation of philosophers sitting around a tabl
 <h3>🛠️ Instructions</h3>
 
 <ul>
+  <li>In <bold>philo</bold> folder, you can find the Makefile and code to run.</li>
   <li>Use the provided <code>Makefile</code> to compile all source files. It should not relink unnecessarily.</li>
   <li>Used the following libraries and functions: <code>pthread</code>, <code>mutex</code>, <code>gettimeofday</code>, <code>usleep</code>.</li>
 </ul>
